@@ -13,18 +13,15 @@
   <header class="topbar">
     <h1>Refly</h1>
 
-    <!-- Affiliate onboarding text -->
     <p class="affiliate-intro">
       “Your WhatsApp status could do more than just entertain… it could inspire and earn.<br>
       Thousands are already turning shares into income — don’t get left behind.”
     </p>
 
-    <!-- Affiliate CTA button -->
     <button id="openAffiliateModal" class="affiliate-btn">
       🔥 Start sharing
     </button>
 
-    <!-- Search -->
     <input
       id="searchInput"
       type="search"
@@ -33,8 +30,29 @@
     />
   </header>
 
-  <!-- MAIN CONTENT -->
-  <main id="grid" class="grid" aria-live="polite"></main>
+  <!-- MAIN CONTENT GRID -->
+  <main id="grid" class="grid" aria-live="polite">
+
+    <!-- SAMPLE CARD (JS WILL GENERATE THESE) -->
+    <!--
+    <div class="card" id="post-1">
+      <img src="THUMBNAIL_URL" alt="TITLE" class="card-thumb" />
+      <h3 class="card-title">TITLE</h3>
+      <button class="play-btn" data-video="VIDEO_URL">
+        ▶ Play
+      </button>
+    </div>
+    -->
+
+  </main>
+
+  <!-- VIDEO MODAL -->
+  <div id="videoModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-content video-modal">
+      <button class="close-modal" aria-label="Close video">&times;</button>
+      <video id="modalVideo" controls playsinline></video>
+    </div>
+  </div>
 
   <!-- AFFILIATE MODAL -->
   <div id="affiliateModal" class="modal hidden" aria-hidden="true">
@@ -62,11 +80,7 @@
 
   <!-- FOOTER -->
   <footer class="footer">
-    <a
-      href="tribe.html"
-      class="whatsapp-cta"
-      role="button"
-    >
+    <a href="tribe.html" class="whatsapp-cta" role="button">
       Join WhatsApp Discussion Group
     </a>
   </footer>
