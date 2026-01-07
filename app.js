@@ -1,194 +1,179 @@
 // ===========================
-// APP.JS – Refly (Video + Text Cards)
+// APP.JS – VIDEO + TEXT + MERCH CARDS
 // ===========================
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* ---------------------------
-   🔒 ACCESS CONTROL
-  --------------------------- */
+  // ---------------------------
+  // 🔒 ACCESS CONTROL
+  // ---------------------------
   if (sessionStorage.getItem("hasAccess") !== "true") {
     window.location.href = "gate.html";
-    return;
   }
 
-  /* ---------------------------
-     DOM REFERENCES
-  --------------------------- */
-  const grid = document.getElementById("grid");
+  // ---------------------------
+  // DOM REFERENCES
+  // ---------------------------
+  const grid = document.getElementById("posts-container") || document.getElementById("grid");
   const searchInput = document.getElementById("searchInput");
   const openAffiliateModal = document.getElementById("openAffiliateModal");
   const affiliateModal = document.getElementById("affiliateModal");
   const closeModalBtn = document.querySelector(".close-modal");
 
-  let posts = [];
+  let items = [];
 
-  /* ---------------------------
-     FETCH DATA
-  --------------------------- */
-  fetch("data.json")
-    .then(res => {
-      if (!res.ok) throw new Error("Failed to fetch data.json");
-      return res.json();
-    })
-    .then(data => {
-      posts = Array.isArray(data) ? data : [];
-      renderPosts(posts);
-      initLazyVideos();
-    })
-    .catch(err => {
-      console.error(err);
-      if (grid) {
-        grid.innerHTML = "<p style='color:#ff4d4d;'>Failed to load content.</p>";
-      }
-    });
+  // ---------------------------
+  // UTILITY: Roman numerals
+  // ---------------------------
+  function toRoman(num) {
+    const roman = ["","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","XIII","XIV","XV"];
+    return roman[num] || num;
+  }
 
-  /* ---------------------------
-     RENDER POSTS
-  --------------------------- */
-  function renderPosts(data) {
+  // ---------------------------
+  // RENDER FUNCTION
+  // ---------------------------
+  function render(data) {
     if (!grid) return;
     grid.innerHTML = "";
 
     data.forEach(post => {
-      const postEl = document.createElement("article");
-      postEl.className = "post";
+      const postDiv = document.createElement("div");
+      postDiv.className = "post";
 
-      postEl.innerHTML = `
-        <h2 class="post-title">${post.title || ""}</h2>
-        <p class="post-desc">${post.description || ""}</p>
-      `;
+      // Post title & description
+      const header = document.createElement("h2");
+      header.textContent = post.title;
+      postDiv.appendChild(header);
 
+      if (post.description) {
+        const desc = document.createElement("p");
+        desc.textContent = post.description;
+        postDiv.appendChild(desc);
+      }
+
+      // Cards wrapper
       const cardsWrapper = document.createElement("div");
       cardsWrapper.className = "cards-wrapper";
 
+      // Loop through cards
       (post.cards || []).forEach(card => {
-        const cardEl = renderCard(card);
-        if (cardEl) cardsWrapper.appendChild(cardEl);
+        const cardDiv = document.createElement("div");
+        cardDiv.className = "card";
+
+        // Determine if card is video, merch, or text
+        if (card.video) {
+          const videoWrapper = document.createElement("div");
+          videoWrapper.className = "card-video";
+          const video = document.createElement("video");
+          video.src = card.video;
+          video.setAttribute("controls", "true");
+          video.setAttribute("preload", "metadata");
+          video.setAttribute("loading", "lazy");
+          videoWrapper.appendChild(video);
+          cardDiv.appendChild(videoWrapper);
+        } else if (card.merch) {
+          const merchDiv = document.createElement("div");
+          merchDiv.className = "card-merch";
+          merchDiv.innerHTML = `
+            <h3>${card.title}</h3>
+            <p class="price">${card.price || "N/A"}</p>
+            <p class="availability">${card.availability || "Available"}</p>
+          `;
+          cardDiv.appendChild(merchDiv);
+        } else {
+          const title = document.createElement("h3");
+          title.textContent = card.title;
+          const text = document.createElement("p");
+          text.textContent = card.text;
+          cardDiv.appendChild(title);
+          cardDiv.appendChild(text);
+        }
+
+        cardsWrapper.appendChild(cardDiv);
       });
 
-      postEl.appendChild(cardsWrapper);
-      postEl.appendChild(renderActions(post));
-      grid.appendChild(postEl);
+      postDiv.appendChild(cardsWrapper);
+
+      // Action buttons
+      const actionsDiv = document.createElement("div");
+      actionsDiv.className = "post-actions";
+
+      if (post.insight) {
+        const insightBtn = document.createElement("button");
+        insightBtn.className = "btn-insight";
+        insightBtn.textContent = "Insight";
+        insightBtn.addEventListener("click", () => {
+          window.location.href = `insight.html?id=${post.insight}`;
+        });
+        actionsDiv.appendChild(insightBtn);
+      }
+
+      if (post.reference) {
+        const refBtn = document.createElement("button");
+        refBtn.className = "btn-reference";
+        refBtn.textContent = "Reference";
+        refBtn.addEventListener("click", () => {
+          window.location.href = `reference.html?id=${post.reference}`;
+        });
+        actionsDiv.appendChild(refBtn);
+      }
+
+      // ---------------------------
+      // COMMENT BUTTON (WhatsApp channel)
+      // ---------------------------
+      const commentBtn = document.createElement("button");
+      commentBtn.className = "btn-comment";
+      commentBtn.textContent = "Comment";
+      commentBtn.addEventListener("click", () => {
+        window.open("https://whatsapp.com/channel/0029Vb77PdM6LwHtxQS6u638", "_blank");
+      });
+      actionsDiv.appendChild(commentBtn);
+
+      postDiv.appendChild(actionsDiv);
+      grid.appendChild(postDiv);
     });
   }
 
-  /* ---------------------------
-     RENDER SINGLE CARD
-  --------------------------- */
-  function renderCard(card) {
-    if (!card || !card.type) return null;
-
-    const el = document.createElement("div");
-    el.className = "wa-card";
-
-    if (card.type === "video") {
-      el.innerHTML = `
-        <div class="wa-media">
-          <video
-            class="lazy-video"
-            data-src="${card.video}"
-            playsinline
-            muted
-            loop
-            preload="none"
-          ></video>
-        </div>
-        ${card.caption ? `<div class="wa-caption">${card.caption}</div>` : ""}
-      `;
+  // ---------------------------
+  // FETCH DATA
+  // ---------------------------
+  async function loadPosts() {
+    try {
+      const res = await fetch("data.json");
+      let data = await res.json();
+      if (!Array.isArray(data)) data = [data];
+      items = data;
+      render(items);
+    } catch (err) {
+      console.error("Failed to load data.json:", err);
+      if (grid) grid.innerHTML = "<p style='color:#ff4d4d;'>Failed to load content.</p>";
     }
-
-    if (card.type === "text") {
-      el.innerHTML = `
-        <div class="wa-text">
-          <h3>${card.title || ""}</h3>
-          <p>${card.text || ""}</p>
-        </div>
-      `;
-    }
-
-    return el;
   }
 
-  /* ---------------------------
-     ACTION BUTTONS
-  --------------------------- */
-  function renderActions(post) {
-    const actions = document.createElement("div");
-    actions.className = "post-actions";
+  loadPosts();
 
-    if (post.insight) {
-      actions.innerHTML += `
-        <button onclick="location.href='insight.html?id=${post.insight}'">
-          🤔 Insight
-        </button>
-      `;
-    }
-
-    if (post.reference) {
-      actions.innerHTML += `
-        <button onclick="location.href='reference.html?id=${post.reference}'">
-          Reference
-        </button>
-      `;
-    }
-
-    actions.innerHTML += `
-      <button onclick="window.open('https://chat.whatsapp.com/HbO36O92c0j1LDowCpbF3v','_blank')">
-        Comment
-      </button>
-    `;
-
-    return actions;
-  }
-
-  /* ---------------------------
-     SEARCH
-  --------------------------- */
+  // ---------------------------
+  // SEARCH
+  // ---------------------------
   if (searchInput) {
     searchInput.addEventListener("input", e => {
       const q = e.target.value.toLowerCase();
-      const filtered = posts.filter(p =>
-        (p.title || "").toLowerCase().includes(q) ||
-        (p.description || "").toLowerCase().includes(q)
+      const filtered = items.filter(post =>
+        post.title.toLowerCase().includes(q) ||
+        (post.description && post.description.toLowerCase().includes(q)) ||
+        (post.cards && post.cards.some(card =>
+          (card.title && card.title.toLowerCase().includes(q)) ||
+          (card.text && card.text.toLowerCase().includes(q))
+        ))
       );
-      renderPosts(filtered);
-      initLazyVideos();
+      render(filtered);
     });
   }
 
-  /* ---------------------------
-     LAZY VIDEO LOADING
-  --------------------------- */
-  function initLazyVideos() {
-    const videos = document.querySelectorAll(".lazy-video");
-
-    if (!("IntersectionObserver" in window)) {
-      videos.forEach(v => loadVideo(v));
-      return;
-    }
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          loadVideo(entry.target);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.4 });
-
-    videos.forEach(video => observer.observe(video));
-  }
-
-  function loadVideo(video) {
-    if (!video.dataset.src) return;
-    video.src = video.dataset.src;
-    video.load();
-  }
-
-  /* ---------------------------
-     AFFILIATE MODAL
-  --------------------------- */
+  // ---------------------------
+  // AFFILIATE MODAL
+  // ---------------------------
   if (openAffiliateModal && affiliateModal && closeModalBtn) {
     const closeModal = () => {
       affiliateModal.classList.add("hidden");
@@ -203,15 +188,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     closeModalBtn.addEventListener("click", closeModal);
-
     affiliateModal.addEventListener("click", e => {
       if (e.target === affiliateModal) closeModal();
     });
-
     document.addEventListener("keydown", e => {
-      if (e.key === "Escape" && !affiliateModal.classList.contains("hidden")) {
-        closeModal();
-      }
+      if (e.key === "Escape" && !affiliateModal.classList.contains("hidden")) closeModal();
     });
   }
 
