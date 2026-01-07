@@ -1,58 +1,129 @@
 {
-  "videos": [
+  "posts": [
     {
-      "id": 1,
+      "id": "post-prank-1",
       "title": "This Prank Went Too Far 😭",
       "category": "Pranks",
       "description": "Everyone laughed… until the ending.",
-      "thumbnail": "https://i.ytimg.com/vi/abc123/maxresdefault.jpg",
-      "preview": "https://www.youtube.com/watch?v=abc123",
-      "locked": true
+      "cards": [
+        {
+          "type": "video",
+          "title": "Watch the prank unfold",
+          "video": "https://www.youtube.com/watch?v=abc123",
+          "thumbnail": "https://i.ytimg.com/vi/abc123/maxresdefault.jpg",
+          "locked": false
+        },
+        {
+          "type": "text",
+          "title": "Why this works",
+          "text": "Shock + delayed consequence triggers emotional retention and replays."
+        }
+      ]
     },
+
     {
-      "id": 2,
+      "id": "post-reaction-1",
       "title": "She Thought It Was Fake… It Wasn’t 😳",
       "category": "Funny Reactions",
       "description": "Watch her face change in seconds.",
-      "thumbnail": "https://i.ytimg.com/vi/def456/maxresdefault.jpg",
-      "preview": "https://www.youtube.com/watch?v=def456",
-      "locked": true
+      "cards": [
+        {
+          "type": "video",
+          "title": "Instant reaction",
+          "video": "https://www.youtube.com/watch?v=def456",
+          "thumbnail": "https://i.ytimg.com/vi/def456/maxresdefault.jpg",
+          "locked": false
+        },
+        {
+          "type": "text",
+          "title": "Psychology",
+          "text": "Expectation violation creates viral-worthy facial reactions."
+        }
+      ]
     },
+
     {
-      "id": 3,
+      "id": "post-hidden-1",
       "title": "He Didn’t Know He Was Being Filmed 😂",
       "category": "Hidden Camera",
       "description": "This moment went viral for a reason.",
-      "thumbnail": "https://i.ytimg.com/vi/ghi789/hqdefault.jpg",
-      "preview": "https://www.tiktok.com/@viralclips/video/ghi789",
-      "locked": true
+      "cards": [
+        {
+          "type": "video",
+          "title": "Hidden camera clip",
+          "video": "https://www.tiktok.com/@viralclips/video/ghi789",
+          "thumbnail": "https://i.ytimg.com/vi/ghi789/hqdefault.jpg",
+          "locked": false
+        },
+        {
+          "type": "text",
+          "title": "Why people share",
+          "text": "Unfiltered authenticity beats scripted content every time."
+        }
+      ]
     },
+
     {
-      "id": 4,
+      "id": "post-ending-1",
       "title": "Wait Till You See the Last 2 Seconds 😱",
       "category": "Unexpected Endings",
       "description": "Nobody saw this coming.",
-      "thumbnail": "https://i.ytimg.com/vi/jkl012/maxresdefault.jpg",
-      "preview": "https://www.instagram.com/reel/jkl012/",
-      "locked": true
+      "cards": [
+        {
+          "type": "video",
+          "title": "Unexpected twist",
+          "video": "https://www.instagram.com/reel/jkl012/",
+          "thumbnail": "https://i.ytimg.com/vi/jkl012/maxresdefault.jpg",
+          "locked": false
+        },
+        {
+          "type": "text",
+          "title": "Hook strategy",
+          "text": "Delayed payoff increases average watch time dramatically."
+        }
+      ]
     },
+
     {
-      "id": 5,
+      "id": "post-prank-2",
       "title": "They Regretted This Prank Instantly 😬",
       "category": "Pranks",
       "description": "This escalated very fast.",
-      "thumbnail": "https://i.ytimg.com/vi/mno345/hqdefault.jpg",
-      "preview": "https://www.facebook.com/watch/?v=mno345",
-      "locked": true
+      "cards": [
+        {
+          "type": "video",
+          "title": "Prank gone wrong",
+          "video": "https://www.facebook.com/watch/?v=mno345",
+          "thumbnail": "https://i.ytimg.com/vi/mno345/hqdefault.jpg",
+          "locked": false
+        },
+        {
+          "type": "text",
+          "title": "Lesson",
+          "text": "Escalation creates tension but risks backlash."
+        }
+      ]
     },
+
     {
-      "id": 6,
+      "id": "post-reaction-2",
       "title": "Funniest Reaction You’ll See Today 🤣",
       "category": "Funny Reactions",
       "description": "Pure, uncontrollable laughter.",
-      "thumbnail": "https://i.ytimg.com/vi/pqr678/maxresdefault.jpg",
-      "preview": "https://www.youtube.com/shorts/pqr678",
-      "locked": true
+      "cards": [
+        {
+          "type": "video",
+          "title": "Can’t stop laughing",
+          "video": "https://www.youtube.com/shorts/pqr678",
+          "thumbnail": "https://i.ytimg.com/vi/pqr678/maxresdefault.jpg",
+          "locked": false
+        },
+        {
+          "type": "text",
+          "title": "Why humor spreads",
+          "text": "Laughter activates social bonding and instant sharing."
+        }
+      ]
     }
   ]
 }
