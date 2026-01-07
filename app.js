@@ -1,5 +1,5 @@
 // ===========================
-// APP.JS – VIDEO + TEXT + MERCH CARDS
+// APP.JS – VIDEO + TEXT + MERCH CARDS (Optimized & Fixed)
 // ===========================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -25,15 +25,51 @@ document.addEventListener("DOMContentLoaded", () => {
   // ---------------------------
   // UTILITY: Roman numerals
   // ---------------------------
-  function toRoman(num) {
-    const roman = ["","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","XIII","XIV","XV"];
-    return roman[num] || num;
-  }
+  const toRoman = num => ["","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","XIII","XIV","XV"][num] || num;
 
   // ---------------------------
-  // RENDER FUNCTION
+  // CREATE CARD HTML (Video / Text / Merch)
   // ---------------------------
-  function render(data) {
+  const createCard = card => {
+    const cardDiv = document.createElement("div");
+    cardDiv.className = "card";
+
+    // Video card
+    if (card.video) {
+      cardDiv.innerHTML = `
+        <div class="card-media">
+          <video controls preload="none" poster="${card.poster || ''}">
+            <source src="${card.video}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      `;
+    }
+    // Merch card
+    else if (card.merch) {
+      cardDiv.innerHTML = `
+        <div class="card-merch">
+          <h3>${card.title}</h3>
+          <p class="price">${card.price || "N/A"}</p>
+          <p class="availability">${card.availability || "Available"}</p>
+        </div>
+      `;
+    }
+    // Text card
+    else {
+      cardDiv.innerHTML = `
+        <h3>${card.title}</h3>
+        <p>${card.text || ""}</p>
+      `;
+    }
+
+    return cardDiv;
+  };
+
+  // ---------------------------
+  // RENDER POSTS
+  // ---------------------------
+  const render = data => {
     if (!grid) return;
     grid.innerHTML = "";
 
@@ -41,57 +77,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const postDiv = document.createElement("div");
       postDiv.className = "post";
 
-      // Post title & description
-      const header = document.createElement("h2");
-      header.textContent = post.title;
-      postDiv.appendChild(header);
-
-      if (post.description) {
-        const desc = document.createElement("p");
-        desc.textContent = post.description;
-        postDiv.appendChild(desc);
-      }
+      // Title & description
+      postDiv.innerHTML = `
+        <h2>${post.title}</h2>
+        ${post.description ? `<p>${post.description}</p>` : ""}
+      `;
 
       // Cards wrapper
       const cardsWrapper = document.createElement("div");
       cardsWrapper.className = "cards-wrapper";
-
-      // Loop through cards
-      (post.cards || []).forEach(card => {
-        const cardDiv = document.createElement("div");
-        cardDiv.className = "card";
-
-        // Determine if card is video, merch, or text
-        if (card.video) {
-          const videoWrapper = document.createElement("div");
-          videoWrapper.className = "card-video";
-          const video = document.createElement("video");
-          video.src = card.video;
-          video.setAttribute("controls", "true");
-          video.setAttribute("preload", "metadata");
-          video.setAttribute("loading", "lazy");
-          videoWrapper.appendChild(video);
-          cardDiv.appendChild(videoWrapper);
-        } else if (card.merch) {
-          const merchDiv = document.createElement("div");
-          merchDiv.className = "card-merch";
-          merchDiv.innerHTML = `
-            <h3>${card.title}</h3>
-            <p class="price">${card.price || "N/A"}</p>
-            <p class="availability">${card.availability || "Available"}</p>
-          `;
-          cardDiv.appendChild(merchDiv);
-        } else {
-          const title = document.createElement("h3");
-          title.textContent = card.title;
-          const text = document.createElement("p");
-          text.textContent = card.text;
-          cardDiv.appendChild(title);
-          cardDiv.appendChild(text);
-        }
-
-        cardsWrapper.appendChild(cardDiv);
-      });
+      (post.cards || []).forEach(card => cardsWrapper.appendChild(createCard(card)));
 
       postDiv.appendChild(cardsWrapper);
 
@@ -100,45 +95,37 @@ document.addEventListener("DOMContentLoaded", () => {
       actionsDiv.className = "post-actions";
 
       if (post.insight) {
-        const insightBtn = document.createElement("button");
-        insightBtn.className = "btn-insight";
-        insightBtn.textContent = "Insight";
-        insightBtn.addEventListener("click", () => {
-          window.location.href = `insight.html?id=${post.insight}`;
-        });
-        actionsDiv.appendChild(insightBtn);
+        const btn = document.createElement("button");
+        btn.className = "btn-insight";
+        btn.textContent = "Insight";
+        btn.addEventListener("click", () => window.location.href = `insight.html?id=${post.insight}`);
+        actionsDiv.appendChild(btn);
       }
 
       if (post.reference) {
-        const refBtn = document.createElement("button");
-        refBtn.className = "btn-reference";
-        refBtn.textContent = "Reference";
-        refBtn.addEventListener("click", () => {
-          window.location.href = `reference.html?id=${post.reference}`;
-        });
-        actionsDiv.appendChild(refBtn);
+        const btn = document.createElement("button");
+        btn.className = "btn-reference";
+        btn.textContent = "Reference";
+        btn.addEventListener("click", () => window.location.href = `reference.html?id=${post.reference}`);
+        actionsDiv.appendChild(btn);
       }
 
-      // ---------------------------
-      // COMMENT BUTTON (WhatsApp channel)
-      // ---------------------------
+      // WhatsApp comment button
       const commentBtn = document.createElement("button");
       commentBtn.className = "btn-comment";
       commentBtn.textContent = "Comment";
-      commentBtn.addEventListener("click", () => {
-        window.open("https://whatsapp.com/channel/0029Vb77PdM6LwHtxQS6u638", "_blank");
-      });
+      commentBtn.addEventListener("click", () => window.open("https://whatsapp.com/channel/0029Vb77PdM6LwHtxQS6u638", "_blank"));
       actionsDiv.appendChild(commentBtn);
 
       postDiv.appendChild(actionsDiv);
       grid.appendChild(postDiv);
     });
-  }
+  };
 
   // ---------------------------
   // FETCH DATA
   // ---------------------------
-  async function loadPosts() {
+  const loadPosts = async () => {
     try {
       const res = await fetch("data.json");
       let data = await res.json();
@@ -149,8 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Failed to load data.json:", err);
       if (grid) grid.innerHTML = "<p style='color:#ff4d4d;'>Failed to load content.</p>";
     }
-  }
-
+  };
   loadPosts();
 
   // ---------------------------
@@ -188,12 +174,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     closeModalBtn.addEventListener("click", closeModal);
-    affiliateModal.addEventListener("click", e => {
-      if (e.target === affiliateModal) closeModal();
-    });
-    document.addEventListener("keydown", e => {
-      if (e.key === "Escape" && !affiliateModal.classList.contains("hidden")) closeModal();
-    });
+    affiliateModal.addEventListener("click", e => { if (e.target === affiliateModal) closeModal(); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape" && !affiliateModal.classList.contains("hidden")) closeModal(); });
   }
 
 });
