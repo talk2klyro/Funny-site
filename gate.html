@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Access Required</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="gate.css" />
+</head>
+<body>
+
+  <main class="gate">
+    <h1>Private Access</h1>
+
+    <p>Please enter your access code to continue.</p>
+
+    <input
+      id="codeInput"
+      type="password"
+      placeholder="Enter access code"
+      aria-label="Access code"
+    />
+
+    <button id="enterBtn">Enter</button>
+
+    <p id="error" role="alert" aria-live="assertive"></p>
+
+    <!-- Divider -->
+    <hr style="margin:2rem 0; border:2px solid #333" />
+
+    <!-- Subscription CTA -->
+    <p><strong>Don’t know the access code?</strong></p>
+
+    <button id="subscribeBtn">
+      Subscribe ₦199 · 14 days access
+    </button>
+  </main>
+
+  <!-- Subscription Modal -->
+  <div id="subscriptionModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <h2>14-Day Access Subscription</h2>
+
+      <p>
+        Get full access for 14 days for <strong>₦199 only</strong>.
+      </p>
+
+      <p><strong>Payment Method (Smartcash)</strong></p>
+      <p>
+        Account Number: <strong>0495568821<br />
+        Name: <strong>Abubakar Haruna>
+      </p>
+
+      <p>
+        After payment, send your receipt on WhatsApp to receive your access code.
+      </p>
+
+      <a
+        class="whatsapp-btn"
+        href="https://wa.me/2347013379809?text=Hello%20I%20have%20paid%20for%2014-day%20access.%20Here%20is%20my%20receipt."
+        target="_blank"
+        rel="noopener"
+      >
+        Send Receipt on WhatsApp
+      </a>
+
+      <button id="closeModal">Close</button>
+    </div>
+  </div>
+
+  <script src="gate.js"></script>
+
+  <!-- Minimal modal logic (can move into gate.js if you want) -->
+  <script>
+    const subscribeBtn = document.getElementById("subscribeBtn");
+    const modal = document.getElementById("subscriptionModal");
+    const closeModal = document.getElementById("closeModal");
+
+    subscribeBtn.addEventListener("click", () => {
+      modal.style.display = "flex";
+      modal.setAttribute("aria-hidden", "false");
+    });
+
+    closeModal.addEventListener("click", () => {
+      modal.style.display = "none";
+      modal.setAttribute("aria-hidden", "true");
+    });
+
+    // Close modal if user clicks outside content
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.style.display = "none";
+        modal.setAttribute("aria-hidden", "true");
+      }
+    });
+  </script>
+
+</body>
+</html>
