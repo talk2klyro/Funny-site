@@ -1,0 +1,58 @@
+{
+  "videos": [
+    {
+      "id": 1,
+      "title": "This Prank Went Too Far 😭",
+      "category": "Pranks",
+      "description": "Everyone laughed… until the ending.",
+      "thumbnail": "https://i.ytimg.com/vi/abc123/maxresdefault.jpg",
+      "preview": "https://www.youtube.com/watch?v=abc123",
+      "locked": true
+    },
+    {
+      "id": 2,
+      "title": "She Thought It Was Fake… It Wasn’t 😳",
+      "category": "Funny Reactions",
+      "description": "Watch her face change in seconds.",
+      "thumbnail": "https://i.ytimg.com/vi/def456/maxresdefault.jpg",
+      "preview": "https://www.youtube.com/watch?v=def456",
+      "locked": true
+    },
+    {
+      "id": 3,
+      "title": "He Didn’t Know He Was Being Filmed 😂",
+      "category": "Hidden Camera",
+      "description": "This moment went viral for a reason.",
+      "thumbnail": "https://i.ytimg.com/vi/ghi789/hqdefault.jpg",
+      "preview": "https://www.tiktok.com/@viralclips/video/ghi789",
+      "locked": true
+    },
+    {
+      "id": 4,
+      "title": "Wait Till You See the Last 2 Seconds 😱",
+      "category": "Unexpected Endings",
+      "description": "Nobody saw this coming.",
+      "thumbnail": "https://i.ytimg.com/vi/jkl012/maxresdefault.jpg",
+      "preview": "https://www.instagram.com/reel/jkl012/",
+      "locked": true
+    },
+    {
+      "id": 5,
+      "title": "They Regretted This Prank Instantly 😬",
+      "category": "Pranks",
+      "description": "This escalated very fast.",
+      "thumbnail": "https://i.ytimg.com/vi/mno345/hqdefault.jpg",
+      "preview": "https://www.facebook.com/watch/?v=mno345",
+      "locked": true
+    },
+    {
+      "id": 6,
+      "title": "Funniest Reaction You’ll See Today 🤣",
+      "category": "Funny Reactions",
+      "description": "Pure, uncontrollable laughter.",
+      "thumbnail": "https://i.ytimg.com/vi/pqr678/maxresdefault.jpg",
+      "preview": "https://www.youtube.com/shorts/pqr678",
+      "locked": true
+    }
+  ]
+}
