@@ -1,20 +1,20 @@
 // ===========================
-// APP.JS – VIDEO + TEXT + MERCH CARDS (FIXED)
+// APP.JS – OPTIMIZED VIDEO-FIRST POSTS
 // ===========================
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* ---------------------------
-     🔒 ACCESS CONTROL
-  ---------------------------- */
+  // ---------------------------
+  // 🔒 ACCESS CONTROL
+  // ---------------------------
   if (sessionStorage.getItem("hasAccess") !== "true") {
     window.location.href = "gate.html";
     return;
   }
 
-  /* ---------------------------
-     DOM REFERENCES
-  ---------------------------- */
+  // ---------------------------
+  // DOM REFERENCES
+  // ---------------------------
   const grid =
     document.getElementById("posts-container") ||
     document.getElementById("grid");
@@ -24,120 +24,57 @@ document.addEventListener("DOMContentLoaded", () => {
   const affiliateModal = document.getElementById("affiliateModal");
   const closeModalBtn = document.querySelector(".close-modal");
 
-  let items = [];
+  if (!grid) return;
 
-  /* ---------------------------
-     HELPERS
-  ---------------------------- */
+  let posts = [];
 
-  const isDirectVideo = url =>
-    /\.(mp4|webm|ogg)$/i.test(url || "");
-
-  const isYouTube = url =>
-    /youtube\.com|youtu\.be/.test(url || "");
-
-  const isInstagram = url =>
-    /instagram\.com/.test(url || "");
-
-  const isTikTok = url =>
-    /tiktok\.com/.test(url || "");
-
-  const isFacebook = url =>
-    /facebook\.com/.test(url || "");
-
+  // ---------------------------
+  // VIDEO URL → EMBED URL
+  // ---------------------------
   function getEmbedUrl(url) {
-    if (isYouTube(url)) {
-      const id =
-        url.split("v=")[1]?.split("&")[0] ||
-        url.split("/").pop();
-      return `https://www.youtube.com/embed/${id}`;
+    if (!url) return "";
+
+    if (url.includes("youtube.com/watch")) {
+      const id = new URL(url).searchParams.get("v");
+      return `https://www.youtube.com/embed/${id}?autoplay=1`;
     }
 
-    if (isInstagram(url)) {
+    if (url.includes("youtube.com/shorts")) {
+      const id = url.split("/shorts/")[1];
+      return `https://www.youtube.com/embed/${id}?autoplay=1`;
+    }
+
+    if (url.includes("instagram.com")) {
       return `${url}embed`;
     }
 
-    if (isTikTok(url)) {
-      return `https://www.tiktok.com/embed/${url.split("/").pop()}`;
+    if (url.includes("tiktok.com")) {
+      return `${url}?embed=1`;
     }
 
-    if (isFacebook(url)) {
-      return `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}`;
+    if (url.includes("facebook.com")) {
+      return `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(
+        url
+      )}&autoplay=true`;
     }
 
-    return null;
+    return url;
   }
 
-  function createLockedCard(card) {
-    const locked = document.createElement("div");
-    locked.className = "card-locked";
-    locked.innerHTML = `
-      <div class="locked-overlay">
-        🔒 Locked Content
-        <p>Unlock to watch this video</p>
-      </div>
-    `;
-    if (card.thumbnail) {
-      locked.style.backgroundImage = `url(${card.thumbnail})`;
-    }
-    return locked;
-  }
-
-  function createVideoCard(card) {
-    if (card.locked) {
-      return createLockedCard(card);
-    }
-
-    // Direct video files
-    if (isDirectVideo(card.video)) {
-      const video = document.createElement("video");
-      video.src = card.video;
-      video.controls = true;
-      video.preload = "metadata";
-      if (card.thumbnail) video.poster = card.thumbnail;
-      return video;
-    }
-
-    // Embedded platforms
-    const embedUrl = getEmbedUrl(card.video);
-    if (embedUrl) {
-      const iframe = document.createElement("iframe");
-      iframe.src = embedUrl;
-      iframe.loading = "lazy";
-      iframe.allow =
-        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-      iframe.allowFullscreen = true;
-      return iframe;
-    }
-
-    // Fallback
-    const fallback = document.createElement("p");
-    fallback.textContent = "Video unavailable.";
-    return fallback;
-  }
-
-  /* ---------------------------
-     RENDER
-  ---------------------------- */
+  // ---------------------------
+  // RENDER POSTS
+  // ---------------------------
   function render(data) {
-    if (!grid) return;
-
     grid.innerHTML = "";
-    const fragment = document.createDocumentFragment();
 
     data.forEach(post => {
-      const postDiv = document.createElement("div");
+      const postDiv = document.createElement("article");
       postDiv.className = "post";
 
-      const header = document.createElement("h2");
-      header.textContent = post.title;
-      postDiv.appendChild(header);
-
-      if (post.description) {
-        const desc = document.createElement("p");
-        desc.textContent = post.description;
-        postDiv.appendChild(desc);
-      }
+      postDiv.innerHTML = `
+        <h2>${post.title}</h2>
+        ${post.description ? `<p>${post.description}</p>` : ""}
+      `;
 
       const cardsWrapper = document.createElement("div");
       cardsWrapper.className = "cards-wrapper";
@@ -146,19 +83,38 @@ document.addEventListener("DOMContentLoaded", () => {
         const cardDiv = document.createElement("div");
         cardDiv.className = "card";
 
+        // ---------------------------
+        // VIDEO CARD (THUMBNAIL FIRST)
+        // ---------------------------
         if (card.type === "video") {
-          cardDiv.appendChild(createVideoCard(card));
-        } else if (card.type === "text") {
-          const title = document.createElement("h3");
-          title.textContent = card.title || "";
-          const text = document.createElement("p");
-          text.textContent = card.text || "";
-          cardDiv.append(title, text);
-        } else if (card.merch) {
-          cardDiv.innerHTML = `
-            <h3>${card.title || ""}</h3>
-            <p class="price">${card.price || "N/A"}</p>
-            <p class="availability">${card.availability || "Available"}</p>
+          const preview = document.createElement("div");
+          preview.className = "video-preview";
+          preview.innerHTML = `
+            <img src="${card.thumbnail}" alt="${card.title}" loading="lazy" />
+            <div class="play-overlay">▶</div>
+          `;
+
+          preview.addEventListener("click", () => {
+            preview.innerHTML = `
+              <iframe
+                src="${getEmbedUrl(card.video)}"
+                frameborder="0"
+                allow="autoplay; encrypted-media; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            `;
+          });
+
+          cardDiv.appendChild(preview);
+        }
+
+        // ---------------------------
+        // TEXT CARD
+        // ---------------------------
+        if (card.type === "text") {
+          cardDiv.innerHTML += `
+            <h3>${card.title}</h3>
+            <p>${card.text}</p>
           `;
         }
 
@@ -167,93 +123,86 @@ document.addEventListener("DOMContentLoaded", () => {
 
       postDiv.appendChild(cardsWrapper);
 
-      /* ---------------------------
-         ACTIONS
-      ---------------------------- */
+      // ---------------------------
+      // ACTION BUTTONS
+      // ---------------------------
       const actions = document.createElement("div");
       actions.className = "post-actions";
 
-      if (post.insight) {
-        const btn = document.createElement("button");
-        btn.textContent = "Insight";
-        btn.onclick = () =>
-          (window.location.href = `insight.html?id=${post.insight}`);
-        actions.appendChild(btn);
-      }
-
-      if (post.reference) {
-        const btn = document.createElement("button");
-        btn.textContent = "Reference";
-        btn.onclick = () =>
-          (window.location.href = `reference.html?id=${post.reference}`);
-        actions.appendChild(btn);
-      }
-
       const commentBtn = document.createElement("button");
+      commentBtn.className = "btn-comment";
       commentBtn.textContent = "Comment";
-      commentBtn.onclick = () =>
+      commentBtn.addEventListener("click", () => {
         window.open(
           "https://whatsapp.com/channel/0029Vb77PdM6LwHtxQS6u638",
           "_blank"
         );
+      });
 
       actions.appendChild(commentBtn);
       postDiv.appendChild(actions);
-
-      fragment.appendChild(postDiv);
+      grid.appendChild(postDiv);
     });
-
-    grid.appendChild(fragment);
   }
 
-  /* ---------------------------
-     LOAD DATA
-  ---------------------------- */
+  // ---------------------------
+  // LOAD DATA
+  // ---------------------------
   async function loadPosts() {
     try {
       const res = await fetch("data.json");
       const json = await res.json();
-      items = json.posts || [];
-      render(items);
+      posts = Array.isArray(json.posts) ? json.posts : [];
+      render(posts);
     } catch (err) {
-      console.error("Failed to load data.json:", err);
+      console.error("Failed to load data.json", err);
       grid.innerHTML =
-        "<p style='color:#ff4d4d;'>Failed to load content.</p>";
+        "<p style='color:red'>Failed to load content.</p>";
     }
   }
 
   loadPosts();
 
-  /* ---------------------------
-     SEARCH
-  ---------------------------- */
+  // ---------------------------
+  // SEARCH
+  // ---------------------------
   if (searchInput) {
     searchInput.addEventListener("input", e => {
       const q = e.target.value.toLowerCase();
       render(
-        items.filter(post =>
-          JSON.stringify(post).toLowerCase().includes(q)
+        posts.filter(p =>
+          p.title.toLowerCase().includes(q) ||
+          (p.description || "").toLowerCase().includes(q)
         )
       );
     });
   }
 
-  /* ---------------------------
-     AFFILIATE MODAL
-  ---------------------------- */
+  // ---------------------------
+  // AFFILIATE MODAL
+  // ---------------------------
   if (openAffiliateModal && affiliateModal && closeModalBtn) {
-    const close = () => {
+    const closeModal = () => {
       affiliateModal.classList.add("hidden");
+      affiliateModal.setAttribute("aria-hidden", "true");
       document.body.style.overflow = "";
     };
 
-    openAffiliateModal.onclick = () => {
+    openAffiliateModal.addEventListener("click", () => {
       affiliateModal.classList.remove("hidden");
+      affiliateModal.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
-    };
+    });
 
-    closeModalBtn.onclick = close;
-    affiliateModal.onclick = e => e.target === affiliateModal && close();
-    document.addEventListener("keydown", e => e.key === "Escape" && close());
+    closeModalBtn.addEventListener("click", closeModal);
+
+    affiliateModal.addEventListener("click", e => {
+      if (e.target === affiliateModal) closeModal();
+    });
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") closeModal();
+    });
   }
+
 });
