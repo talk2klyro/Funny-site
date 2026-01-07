@@ -1,20 +1,24 @@
 // ===========================
-// APP.JS – VIDEO + TEXT + LOCKED CARDS
+// APP.JS – VIDEO + TEXT + MERCH CARDS (FIXED)
 // ===========================
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  // ---------------------------
-  // 🔒 ACCESS CONTROL
-  // ---------------------------
+  /* ---------------------------
+     🔒 ACCESS CONTROL
+  ---------------------------- */
   if (sessionStorage.getItem("hasAccess") !== "true") {
     window.location.href = "gate.html";
+    return;
   }
 
-  // ---------------------------
-  // DOM REFERENCES
-  // ---------------------------
-  const grid = document.getElementById("posts-container") || document.getElementById("grid");
+  /* ---------------------------
+     DOM REFERENCES
+  ---------------------------- */
+  const grid =
+    document.getElementById("posts-container") ||
+    document.getElementById("grid");
+
   const searchInput = document.getElementById("searchInput");
   const openAffiliateModal = document.getElementById("openAffiliateModal");
   const affiliateModal = document.getElementById("affiliateModal");
@@ -22,26 +26,109 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let items = [];
 
-  // ---------------------------
-  // UTILITY: Roman numerals (optional)
-  // ---------------------------
-  function toRoman(num) {
-    const roman = ["","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","XIII","XIV","XV"];
-    return roman[num] || num;
+  /* ---------------------------
+     HELPERS
+  ---------------------------- */
+
+  const isDirectVideo = url =>
+    /\.(mp4|webm|ogg)$/i.test(url || "");
+
+  const isYouTube = url =>
+    /youtube\.com|youtu\.be/.test(url || "");
+
+  const isInstagram = url =>
+    /instagram\.com/.test(url || "");
+
+  const isTikTok = url =>
+    /tiktok\.com/.test(url || "");
+
+  const isFacebook = url =>
+    /facebook\.com/.test(url || "");
+
+  function getEmbedUrl(url) {
+    if (isYouTube(url)) {
+      const id =
+        url.split("v=")[1]?.split("&")[0] ||
+        url.split("/").pop();
+      return `https://www.youtube.com/embed/${id}`;
+    }
+
+    if (isInstagram(url)) {
+      return `${url}embed`;
+    }
+
+    if (isTikTok(url)) {
+      return `https://www.tiktok.com/embed/${url.split("/").pop()}`;
+    }
+
+    if (isFacebook(url)) {
+      return `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}`;
+    }
+
+    return null;
   }
 
-  // ---------------------------
-  // RENDER FUNCTION
-  // ---------------------------
+  function createLockedCard(card) {
+    const locked = document.createElement("div");
+    locked.className = "card-locked";
+    locked.innerHTML = `
+      <div class="locked-overlay">
+        🔒 Locked Content
+        <p>Unlock to watch this video</p>
+      </div>
+    `;
+    if (card.thumbnail) {
+      locked.style.backgroundImage = `url(${card.thumbnail})`;
+    }
+    return locked;
+  }
+
+  function createVideoCard(card) {
+    if (card.locked) {
+      return createLockedCard(card);
+    }
+
+    // Direct video files
+    if (isDirectVideo(card.video)) {
+      const video = document.createElement("video");
+      video.src = card.video;
+      video.controls = true;
+      video.preload = "metadata";
+      if (card.thumbnail) video.poster = card.thumbnail;
+      return video;
+    }
+
+    // Embedded platforms
+    const embedUrl = getEmbedUrl(card.video);
+    if (embedUrl) {
+      const iframe = document.createElement("iframe");
+      iframe.src = embedUrl;
+      iframe.loading = "lazy";
+      iframe.allow =
+        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+      iframe.allowFullscreen = true;
+      return iframe;
+    }
+
+    // Fallback
+    const fallback = document.createElement("p");
+    fallback.textContent = "Video unavailable.";
+    return fallback;
+  }
+
+  /* ---------------------------
+     RENDER
+  ---------------------------- */
   function render(data) {
     if (!grid) return;
+
     grid.innerHTML = "";
+    const fragment = document.createDocumentFragment();
 
     data.forEach(post => {
       const postDiv = document.createElement("div");
       postDiv.className = "post";
 
-      // Post title & description
       const header = document.createElement("h2");
       header.textContent = post.title;
       postDiv.appendChild(header);
@@ -52,45 +139,27 @@ document.addEventListener("DOMContentLoaded", () => {
         postDiv.appendChild(desc);
       }
 
-      // Cards wrapper
       const cardsWrapper = document.createElement("div");
       cardsWrapper.className = "cards-wrapper";
 
-      (post.cards || []).forEach((card, idx) => {
+      (post.cards || []).forEach(card => {
         const cardDiv = document.createElement("div");
         cardDiv.className = "card";
 
-        // ---------- VIDEO CARD ----------
-        if (card.type === "video" && card.video) {
-          const videoWrapper = document.createElement("div");
-          videoWrapper.className = "card-video";
-
-          const video = document.createElement("video");
-          video.src = card.video;
-          video.poster = card.thumbnail || "";
-          video.controls = true;
-          video.preload = "metadata";
-          video.loading = "lazy";
-          videoWrapper.appendChild(video);
-
-          // Overlay for locked videos
-          if (card.locked) {
-            const overlay = document.createElement("div");
-            overlay.className = "locked-overlay";
-            overlay.textContent = "🔒 Unlock to watch";
-            videoWrapper.appendChild(overlay);
-          }
-
-          cardDiv.appendChild(videoWrapper);
-
-        // ---------- TEXT CARD ----------
+        if (card.type === "video") {
+          cardDiv.appendChild(createVideoCard(card));
         } else if (card.type === "text") {
           const title = document.createElement("h3");
           title.textContent = card.title || "";
           const text = document.createElement("p");
           text.textContent = card.text || "";
-          cardDiv.appendChild(title);
-          cardDiv.appendChild(text);
+          cardDiv.append(title, text);
+        } else if (card.merch) {
+          cardDiv.innerHTML = `
+            <h3>${card.title || ""}</h3>
+            <p class="price">${card.price || "N/A"}</p>
+            <p class="availability">${card.availability || "Available"}</p>
+          `;
         }
 
         cardsWrapper.appendChild(cardDiv);
@@ -98,111 +167,93 @@ document.addEventListener("DOMContentLoaded", () => {
 
       postDiv.appendChild(cardsWrapper);
 
-      // ---------- POST ACTION BUTTONS ----------
-      const actionsDiv = document.createElement("div");
-      actionsDiv.className = "post-actions";
+      /* ---------------------------
+         ACTIONS
+      ---------------------------- */
+      const actions = document.createElement("div");
+      actions.className = "post-actions";
 
       if (post.insight) {
-        const insightBtn = document.createElement("button");
-        insightBtn.className = "btn-insight";
-        insightBtn.textContent = "🤔 Insight";
-        insightBtn.addEventListener("click", () => {
-          window.location.href = `insight.html?id=${post.insight}`;
-        });
-        actionsDiv.appendChild(insightBtn);
+        const btn = document.createElement("button");
+        btn.textContent = "Insight";
+        btn.onclick = () =>
+          (window.location.href = `insight.html?id=${post.insight}`);
+        actions.appendChild(btn);
       }
 
       if (post.reference) {
-        const refBtn = document.createElement("button");
-        refBtn.className = "btn-reference";
-        refBtn.textContent = "Reference";
-        refBtn.addEventListener("click", () => {
-          window.location.href = `reference.html?id=${post.reference}`;
-        });
-        actionsDiv.appendChild(refBtn);
+        const btn = document.createElement("button");
+        btn.textContent = "Reference";
+        btn.onclick = () =>
+          (window.location.href = `reference.html?id=${post.reference}`);
+        actions.appendChild(btn);
       }
 
-      // Comment button → WhatsApp channel
       const commentBtn = document.createElement("button");
-      commentBtn.className = "btn-comment";
       commentBtn.textContent = "Comment";
-      commentBtn.addEventListener("click", () => {
-        window.open("https://whatsapp.com/channel/0029Vb77PdM6LwHtxQS6u638", "_blank");
-      });
-      actionsDiv.appendChild(commentBtn);
+      commentBtn.onclick = () =>
+        window.open(
+          "https://whatsapp.com/channel/0029Vb77PdM6LwHtxQS6u638",
+          "_blank"
+        );
 
-      postDiv.appendChild(actionsDiv);
+      actions.appendChild(commentBtn);
+      postDiv.appendChild(actions);
 
-      grid.appendChild(postDiv);
+      fragment.appendChild(postDiv);
     });
 
-    // Ensure videos and images lazy load and fit nicely
-    document.querySelectorAll(".card-video video").forEach(v => {
-      v.style.width = "100%";
-      v.style.height = "100%";
-      v.style.objectFit = "cover";
-      v.loading = "lazy";
-    });
+    grid.appendChild(fragment);
   }
 
-  // ---------------------------
-  // FETCH DATA
-  // ---------------------------
+  /* ---------------------------
+     LOAD DATA
+  ---------------------------- */
   async function loadPosts() {
     try {
       const res = await fetch("data.json");
-      const data = await res.json();
-      items = (data.posts && Array.isArray(data.posts)) ? data.posts : [];
+      const json = await res.json();
+      items = json.posts || [];
       render(items);
     } catch (err) {
       console.error("Failed to load data.json:", err);
-      if (grid) grid.innerHTML = "<p style='color:#ff4d4d;'>Failed to load content.</p>";
+      grid.innerHTML =
+        "<p style='color:#ff4d4d;'>Failed to load content.</p>";
     }
   }
 
   loadPosts();
 
-  // ---------------------------
-  // SEARCH FUNCTIONALITY
-  // ---------------------------
+  /* ---------------------------
+     SEARCH
+  ---------------------------- */
   if (searchInput) {
     searchInput.addEventListener("input", e => {
       const q = e.target.value.toLowerCase();
-      const filtered = items.filter(post =>
-        post.title.toLowerCase().includes(q) ||
-        (post.description && post.description.toLowerCase().includes(q)) ||
-        (post.cards && post.cards.some(card =>
-          (card.title && card.title.toLowerCase().includes(q)) ||
-          (card.text && card.text.toLowerCase().includes(q))
-        ))
+      render(
+        items.filter(post =>
+          JSON.stringify(post).toLowerCase().includes(q)
+        )
       );
-      render(filtered);
     });
   }
 
-  // ---------------------------
-  // AFFILIATE MODAL
-  // ---------------------------
+  /* ---------------------------
+     AFFILIATE MODAL
+  ---------------------------- */
   if (openAffiliateModal && affiliateModal && closeModalBtn) {
-    const closeModal = () => {
+    const close = () => {
       affiliateModal.classList.add("hidden");
-      affiliateModal.setAttribute("aria-hidden", "true");
       document.body.style.overflow = "";
     };
 
-    openAffiliateModal.addEventListener("click", () => {
+    openAffiliateModal.onclick = () => {
       affiliateModal.classList.remove("hidden");
-      affiliateModal.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
-    });
+    };
 
-    closeModalBtn.addEventListener("click", closeModal);
-    affiliateModal.addEventListener("click", e => {
-      if (e.target === affiliateModal) closeModal();
-    });
-    document.addEventListener("keydown", e => {
-      if (e.key === "Escape" && !affiliateModal.classList.contains("hidden")) closeModal();
-    });
+    closeModalBtn.onclick = close;
+    affiliateModal.onclick = e => e.target === affiliateModal && close();
+    document.addEventListener("keydown", e => e.key === "Escape" && close());
   }
-
 });
