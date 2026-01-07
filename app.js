@@ -1,5 +1,5 @@
 // ===========================
-// APP.JS – OPTIMIZED VIDEO-FIRST POSTS
+// APP.JS – VIDEO-FIRST + AFFILIATE FIXED
 // ===========================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -20,9 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("grid");
 
   const searchInput = document.getElementById("searchInput");
+
+  // Affiliate modal elements
   const openAffiliateModal = document.getElementById("openAffiliateModal");
   const affiliateModal = document.getElementById("affiliateModal");
-  const closeModalBtn = document.querySelector(".close-modal");
+  const closeModalBtn = affiliateModal?.querySelector(".close-modal");
 
   if (!grid) return;
 
@@ -84,20 +86,51 @@ document.addEventListener("DOMContentLoaded", () => {
         cardDiv.className = "card";
 
         // ---------------------------
-        // VIDEO CARD (THUMBNAIL FIRST)
+        // VIDEO CARD (RESPONSIVE)
         // ---------------------------
         if (card.type === "video") {
           const preview = document.createElement("div");
           preview.className = "video-preview";
+          preview.style.position = "relative";
+          preview.style.width = "100%";
+          preview.style.paddingTop = "56.25%"; // 16:9
+          preview.style.overflow = "hidden";
+          preview.style.borderRadius = "14px";
+          preview.style.background = "#000";
+
           preview.innerHTML = `
-            <img src="${card.thumbnail}" alt="${card.title}" loading="lazy" />
-            <div class="play-overlay">▶</div>
+            <img
+              src="${card.thumbnail}"
+              alt="${card.title}"
+              loading="lazy"
+              style="
+                position:absolute;
+                inset:0;
+                width:100%;
+                height:100%;
+                object-fit:cover;
+              "
+            />
+            <div class="play-overlay"
+              style="
+                position:absolute;
+                inset:0;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-size:3rem;
+                color:white;
+                background:rgba(0,0,0,.35);
+                cursor:pointer;
+              "
+            >▶</div>
           `;
 
           preview.addEventListener("click", () => {
             preview.innerHTML = `
               <iframe
                 src="${getEmbedUrl(card.video)}"
+                style="position:absolute; inset:0; width:100%; height:100%;"
                 frameborder="0"
                 allow="autoplay; encrypted-media; picture-in-picture"
                 allowfullscreen
@@ -124,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
       postDiv.appendChild(cardsWrapper);
 
       // ---------------------------
-      // ACTION BUTTONS
+      // POST ACTIONS
       // ---------------------------
       const actions = document.createElement("div");
       actions.className = "post-actions";
@@ -179,10 +212,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ---------------------------
-  // AFFILIATE MODAL
+  // AFFILIATE MODAL (RESTORED)
   // ---------------------------
-  if (openAffiliateModal && affiliateModal && closeModalBtn) {
-    const closeModal = () => {
+  if (openAffiliateModal && affiliateModal) {
+
+    const closeAffiliateModal = () => {
       affiliateModal.classList.add("hidden");
       affiliateModal.setAttribute("aria-hidden", "true");
       document.body.style.overflow = "";
@@ -194,14 +228,16 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.style.overflow = "hidden";
     });
 
-    closeModalBtn.addEventListener("click", closeModal);
+    closeModalBtn?.addEventListener("click", closeAffiliateModal);
 
     affiliateModal.addEventListener("click", e => {
-      if (e.target === affiliateModal) closeModal();
+      if (e.target === affiliateModal) closeAffiliateModal();
     });
 
     document.addEventListener("keydown", e => {
-      if (e.key === "Escape") closeModal();
+      if (e.key === "Escape" && !affiliateModal.classList.contains("hidden")) {
+        closeAffiliateModal();
+      }
     });
   }
 
