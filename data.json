@@ -1,186 +1,125 @@
-{
-  "posts": [
-    {
-      "id": "post-trending-1",
-      "title": "Trending Shorts Everyone Is Watching 🔥",
-      "category": "Trending",
-      "description": "These clips are all over the internet right now.",
-      "cards": [
-        {
-          "type": "video",
-          "caption": "This popped up everywhere 😳",
-          "video": "https://youtube.com/shorts/FrnNbt57PVI?si=LXdaD6Lov6WHDD9y",
-          "locked": false
-        },
-        {
-          "type": "video",
-          "caption": "I didn’t expect that ending 😂",
-          "video": "https://youtube.com/shorts/0XHJC66RytI?si=hBc8Kvyy-1fwTqsW",
-          "locked": false
-        },
-        {
-          "type": "video",
-          "caption": "Watch till the end 👀",
-          "video": "https://youtube.com/shorts/3Zl1eKotwkY?si=eoMMgTvSPLpggivH",
-          "locked": false
-        }
-      ]
-    },
-
-    {
-      "id": "post-trending-2",
-      "title": "More Viral Moments 😂",
-      "category": "Trending",
-      "description": "Social media is wild sometimes.",
-      "cards": [
-        {
-          "type": "video",
-          "caption": "This one shocked people 😭",
-          "video": "https://youtube.com/shorts/N2xA1bkuNnQ?si=MUAeShybdzqRPVPf",
-          "locked": false
-        },
-        {
-          "type": "video",
-          "caption": "I laughed too hard at this 🤣",
-          "video": "https://youtube.com/shorts/Ccb0898O3WI?si=n0DfvtHnbKIzveYp",
-          "locked": false
-        },
-        {
-          "type": "video",
-          "caption": "Internet never rests 😂",
-          "video": "https://youtube.com/shorts/kz5AN6jGknM?si=n64VXCs5Vygeg4l_",
-          "locked": false
-        }
-      ]
-    },
-
-    {
-      "id": "post-youtube-1",
-      "title": "YouTube Shorts Madness 😱",
-      "category": "YouTube Shorts",
-      "description": "These ones are getting serious views.",
-      "cards": [
-        {
-          "type": "video",
-          "caption": "This was unexpected 😳",
-          "video": "https://youtube.com/shorts/XqUk3OcOne0?si=xfksbApiBv4c1RH_",
-          "locked": false
-        },
-        {
-          "type": "video",
-          "caption": "People can’t stop sharing this",
-          "video": "https://youtube.com/shorts/PBG-rNJBeRo?si=oUbXHeMat4lyHksX",
-          "locked": false
-        },
-        {
-          "type": "video",
-          "caption": "Crazy moment caught on camera",
-          "video": "https://youtube.com/shorts/B8aADys5Zu0?si=-nGQlC0-10iUuPvV",
-          "locked": false
-        }
-      ]
-    },
-
-    {
-      "id": "post-youtube-2",
-      "title": "More Shorts You’ll Enjoy 😄",
-      "category": "YouTube Shorts",
-      "description": "Quick clips, big reactions.",
-      "cards": [
-        {
-          "type": "video",
-          "caption": "I wasn’t ready for this 😂",
-          "video": "https://youtube.com/shorts/u9XPXzKiEPI?si=mVw-fSlpCAs-0Is",
-          "locked": false
-        },
-        {
-          "type": "video",
-          "caption": "This one went viral fast 🔥",
-          "video": "https://youtube.com/shorts/zvC_nqFBoxI?si=tUAVyjJ4oZCqJ7SK",
-          "locked": false
-        },
-        {
-          "type": "video",
-          "caption": "Wait for it… 😳",
-          "video": "https://youtube.com/shorts/9gSnGuWybOI?si=r7lYNiaq8qk2B4mB",
-          "locked": false
-        }
-      ]
-    },
-
-    {
-      "id": "post-tiktok-1",
-      "title": "TikTok Clips People Love ❤️",
-      "category": "TikTok",
-      "description": "Straight from TikTok.",
-      "cards": [
-        {
-          "type": "video",
-          "caption": "TikTok is something else 😂",
-          "video": "https://vt.tiktok.com/ZS59JLU2e/",
-          "locked": false
-        },
-        {
-          "type": "video",
-          "caption": "This one is everywhere 😭",
-          "video": "https://vt.tiktok.com/ZS59ejvCD/",
-          "locked": false
-        },
-        {
-          "type": "video",
-          "caption": "People are talking about this",
-          "video": "https://vt.tiktok.com/ZS59J6PTg/",
-          "locked": false
-        }
-      ]
-    },
-
-    {
-      "id": "post-tiktok-2",
-      "title": "More TikTok Energy 🔥",
-      "category": "TikTok",
-      "description": "These clips are trending hard.",
-      "cards": [
-        {
-          "type": "video",
-          "caption": "This caught my attention instantly",
-          "video": "https://vt.tiktok.com/ZS59dPfgb/",
-          "locked": false
-        },
-        {
-          "type": "video",
-          "caption": "You need to see this 😳",
-          "video": "https://vt.tiktok.com/ZS59JArJe/",
-          "locked": false
-        },
-        {
-          "type": "video",
-          "caption": "TikTok never disappoints 😂",
-          "video": "https://vt.tiktok.com/ZS59dwpMY/",
-          "locked": false
-        }
-      ]
-    },
-
-    {
-      "id": "post-facebook-1",
-      "title": "Facebook Viral Videos 📘",
-      "category": "Facebook",
-      "description": "These are getting shared fast.",
-      "cards": [
-        {
-          "type": "video",
-          "caption": "Facebook users love this one",
-          "video": "https://www.facebook.com/share/r/17FCr4trTb/",
-          "locked": false
-        },
-        {
-          "type": "video",
-          "caption": "This video blew up quickly 🔥",
-          "video": "https://www.facebook.com/share/v/1a8cjNziLC/",
-          "locked": false
-        }
-      ]
-    }
-  ]
-}
+‎{
+‎  "posts": [
+‎    {
+‎      "id": "post-prank-1",
+‎      "title": "This Prank Went Too Far 😭",
+‎      "category": "Pranks",
+‎      "description": "Everyone laughed… until the ending.",
+‎      "cards": [
+‎        {
+‎          "type": "video",
+‎          "title": "Prank clip",
+‎          "video": "https://youtube.com/shorts/FrnNbt57PVI?si=LXdaD6Lov6WHDD9y",
+‎          "thumbnail": "https://img.youtube.com/vi/FrnNbt57PVI/maxresdefault.jpg",
+‎          "locked": false
+‎        },
+‎        {
+‎          "type": "text",
+‎          "title": "Why this works",
+‎          "text": "Shock + delayed consequence triggers emotional retention and replays."
+‎        }
+‎      ]
+‎    },
+‎    {
+‎      "id": "post-reaction-1",
+‎      "title": "She Thought It Was Fake… It Wasn’t 😳",
+‎      "category": "Funny Reactions",
+‎      "description": "Watch her face change in seconds.",
+‎      "cards": [
+‎        {
+‎          "type": "video",
+‎          "title": "Instant reaction",
+‎          "video": "https://youtube.com/shorts/0XHJC66RytI?si=hBc8Kvyy-1fwTqsW",
+‎          "thumbnail": "https://img.youtube.com/vi/0XHJC66RytI/maxresdefault.jpg",
+‎          "locked": false
+‎        },
+‎        {
+‎          "type": "text",
+‎          "title": "Psychology",
+‎          "text": "Expectation violation creates viral-worthy facial reactions."
+‎        }
+‎      ]
+‎    },
+‎    {
+‎      "id": "post-hidden-1",
+‎      "title": "He Didn’t Know He Was Being Filmed 😂",
+‎      "category": "Hidden Camera",
+‎      "description": "This moment went viral for a reason.",
+‎      "cards": [
+‎        {
+‎          "type": "video",
+‎          "title": "Hidden camera clip",
+‎          "video": "https://youtube.com/shorts/3Zl1eKotwkY?si=eoMMgTvSPLpggivH",
+‎          "thumbnail": "https://img.youtube.com/vi/3Zl1eKotwkY/maxresdefault.jpg",
+‎          "locked": false
+‎        },
+‎        {
+‎          "type": "text",
+‎          "title": "Why people share",
+‎          "text": "Unfiltered authenticity beats scripted content every time."
+‎        }
+‎      ]
+‎    },
+‎    {
+‎      "id": "post-ending-1",
+‎      "title": "Wait Till You See the Last 2 Seconds 😱",
+‎      "category": "Unexpected Endings",
+‎      "description": "Nobody saw this coming.",
+‎      "cards": [
+‎        {
+‎          "type": "video",
+‎          "title": "Unexpected twist",
+‎          "video": "https://youtube.com/shorts/N2xA1bkuNnQ?si=MUAeShybdzqRPVPf",
+‎          "thumbnail": "https://img.youtube.com/vi/N2xA1bkuNnQ/maxresdefault.jpg",
+‎          "locked": false
+‎        },
+‎        {
+‎          "type": "text",
+‎          "title": "Hook strategy",
+‎          "text": "Delayed payoff increases average watch time dramatically."
+‎        }
+‎      ]
+‎    },
+‎    {
+‎      "id": "post-prank-2",
+‎      "title": "They Regretted This Prank Instantly 😬",
+‎      "category": "Pranks",
+‎      "description": "This escalated very fast.",
+‎      "cards": [
+‎        {
+‎          "type": "video",
+‎          "title": "Prank gone wrong",
+‎          "video": "https://youtube.com/shorts/Ccb0898O3WI?si=n0DfvtHnbKIzveYp",
+‎          "thumbnail": "https://img.youtube.com/vi/Ccb0898O3WI/maxresdefault.jpg",
+‎          "locked": false
+‎        },
+‎        {
+‎          "type": "text",
+‎          "title": "Lesson",
+‎          "text": "Escalation creates tension but risks backlash."
+‎        }
+‎      ]
+‎    },
+‎    {
+‎      "id": "post-reaction-2",
+‎      "title": "Funniest Reaction You’ll See Today 🤣",
+‎      "category": "Funny Reactions",
+‎      "description": "Pure, uncontrollable laughter.",
+‎      "cards": [
+‎        {
+‎          "type": "video",
+‎          "title": "Can’t stop laughing",
+‎          "video": "https://youtube.com/shorts/kz5AN6jGknM?si=n64VXCs5Vygeg4l_",
+‎          "thumbnail": "https://img.youtube.com/vi/kz5AN6jGknM/maxresdefault.jpg",
+‎          "locked": false
+‎        },
+‎        {
+‎          "type": "text",
+‎          "title": "Why humor spreads",
+‎          "text": "Laughter activates social bonding and instant sharing."
+‎        }
+‎      ]
+‎    }
+‎  ]
+‎}
+‎
