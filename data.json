@@ -20,6 +20,7 @@
         }
       ]
     },
+
     {
       "id": "post-reaction-1",
       "title": "She Thought It Was Fake… It Wasn’t 😳",
@@ -40,6 +41,7 @@
         }
       ]
     },
+
     {
       "id": "post-hidden-1",
       "title": "He Didn’t Know He Was Being Filmed 😂",
@@ -60,6 +62,7 @@
         }
       ]
     },
+
     {
       "id": "post-ending-1",
       "title": "Wait Till You See the Last 2 Seconds 😱",
@@ -80,6 +83,7 @@
         }
       ]
     },
+
     {
       "id": "post-prank-2",
       "title": "They Regretted This Prank Instantly 😬",
@@ -100,6 +104,7 @@
         }
       ]
     },
+
     {
       "id": "post-reaction-2",
       "title": "Funniest Reaction You’ll See Today 🤣",
@@ -117,6 +122,182 @@
           "type": "text",
           "title": "This laugh is contagious",
           "text": "I laughed without meaning to 🤣"
+        }
+      ]
+    },
+
+    {
+      "id": "post-short-1",
+      "title": "This Moment Had Everyone Shocked 😳",
+      "category": "Viral Moments",
+      "description": "You won’t expect what happens next.",
+      "cards": [
+        {
+          "type": "video",
+          "title": "Viral short",
+          "video": "https://youtube.com/shorts/ER8t5DDVMtw?si=b60XjiYRoUn0uKtQ",
+          "thumbnail": "https://img.youtube.com/vi/ER8t5DDVMtw/maxresdefault.jpg",
+          "locked": false
+        }
+      ]
+    },
+
+    {
+      "id": "post-short-2",
+      "title": "This Reaction Was Priceless 😂",
+      "category": "Funny Reactions",
+      "description": "You can’t fake this.",
+      "cards": [
+        {
+          "type": "video",
+          "title": "Reaction clip",
+          "video": "https://youtube.com/shorts/Uwked5oBEiU?si=XNvLhCid0pOHwlxp",
+          "thumbnail": "https://img.youtube.com/vi/Uwked5oBEiU/maxresdefault.jpg",
+          "locked": false
+        }
+      ]
+    },
+
+    {
+      "id": "post-short-3",
+      "title": "Nobody Saw This Coming 😱",
+      "category": "Unexpected",
+      "description": "The ending changes everything.",
+      "cards": [
+        {
+          "type": "video",
+          "title": "Unexpected clip",
+          "video": "https://youtube.com/shorts/rKH_wPmp9TI?si=yuvZxAn1AjXfUCeM",
+          "thumbnail": "https://img.youtube.com/vi/rKH_wPmp9TI/maxresdefault.jpg",
+          "locked": false
+        }
+      ]
+    },
+
+    {
+      "id": "post-short-4",
+      "title": "This Went Wrong So Fast 😬",
+      "category": "Pranks",
+      "description": "Things escalated instantly.",
+      "cards": [
+        {
+          "type": "video",
+          "title": "Prank clip",
+          "video": "https://youtube.com/shorts/JaS0I4aJHw4?si=6b99QCty4MmpcQ8a",
+          "thumbnail": "https://img.youtube.com/vi/JaS0I4aJHw4/maxresdefault.jpg",
+          "locked": false
+        }
+      ]
+    },
+
+    {
+      "id": "post-short-5",
+      "title": "Caught on Camera 😂",
+      "category": "Hidden Camera",
+      "description": "He didn’t see this coming.",
+      "cards": [
+        {
+          "type": "video",
+          "title": "Hidden moment",
+          "video": "https://youtube.com/shorts/UBn22fdRUwQ?si=28HhTIyZcncAMtVj",
+          "thumbnail": "https://img.youtube.com/vi/UBn22fdRUwQ/maxresdefault.jpg",
+          "locked": false
+        }
+      ]
+    },
+
+    {
+      "id": "post-short-6",
+      "title": "This Is Too Funny 🤣",
+      "category": "Comedy",
+      "description": "Try not to laugh.",
+      "cards": [
+        {
+          "type": "video",
+          "title": "Funny clip",
+          "video": "https://youtube.com/shorts/zZPDu4ATV3w?si=RP6D9BNi7VYfWtux",
+          "thumbnail": "https://img.youtube.com/vi/zZPDu4ATV3w/maxresdefault.jpg",
+          "locked": false
+        }
+      ]
+    },
+
+    {
+      "id": "post-short-7",
+      "title": "That Look Says Everything 😳",
+      "category": "Funny Reactions",
+      "description": "No words needed.",
+      "cards": [
+        {
+          "type": "video",
+          "title": "Reaction moment",
+          "video": "https://youtube.com/shorts/Z-AEhHazBUY?si=a458xZdvAM3SOhf8",
+          "thumbnail": "https://img.youtube.com/vi/Z-AEhHazBUY/maxresdefault.jpg",
+          "locked": false
+        }
+      ]
+    },
+
+    {
+      "id": "post-short-8",
+      "title": "This Turned Awkward Fast 😬",
+      "category": "Viral Moments",
+      "description": "You can feel the tension.",
+      "cards": [
+        {
+          "type": "video",
+          "title": "Awkward clip",
+          "video": "https://youtube.com/shorts/hJN92NDLnBA?si=VzAiFWO691ufzUbw",
+          "thumbnail": "https://img.youtube.com/vi/hJN92NDLnBA/maxresdefault.jpg",
+          "locked": false
+        }
+      ]
+    },
+
+    {
+      "id": "post-short-9",
+      "title": "This Is Why Everyone Is Laughing 😂",
+      "category": "Comedy",
+      "description": "It just keeps getting better.",
+      "cards": [
+        {
+          "type": "video",
+          "title": "Comedy short",
+          "video": "https://youtube.com/shorts/x2m0hff7hXc?si=n1Kx_wp_x5SNCBLa",
+          "thumbnail": "https://img.youtube.com/vi/x2m0hff7hXc/maxresdefault.jpg",
+          "locked": false
+        }
+      ]
+    },
+
+    {
+      "id": "post-short-10",
+      "title": "This Reaction Is Everything 😱",
+      "category": "Funny Reactions",
+      "description": "Watch closely.",
+      "cards": [
+        {
+          "type": "video",
+          "title": "Reaction short",
+          "video": "https://youtube.com/shorts/IDkYfPjtgpE?si=kF_Yt7MNDWPR8j_Y",
+          "thumbnail": "https://img.youtube.com/vi/IDkYfPjtgpE/maxresdefault.jpg",
+          "locked": false
+        }
+      ]
+    },
+
+    {
+      "id": "post-short-11",
+      "title": "This Ended Better Than Expected 😅",
+      "category": "Unexpected Endings",
+      "description": "Worth the wait.",
+      "cards": [
+        {
+          "type": "video",
+          "title": "Ending clip",
+          "video": "https://youtube.com/shorts/wIaw14_A4sI?si=xwvCzzN-NwrbZZln",
+          "thumbnail": "https://img.youtube.com/vi/wIaw14_A4sI/maxresdefault.jpg",
+          "locked": false
         }
       ]
     }
